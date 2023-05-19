@@ -55,7 +55,7 @@ jobs:
           echo "tag=${_tag}" >> $GITHUB_OUTPUT
 
       - name: Build and push s2i-core to quay.io registry
-        uses: sclorg/build-and-push-action@v4
+        uses: modassarrana89/build-and-push-action@multi-arch-support
         with:
           registry: "quay.io"
           registry_namespace: ${{ matrix.registry_namespace }}
@@ -64,9 +64,10 @@ jobs:
           dockerfile: "core/${{ matrix.dockerfile }}"
           image_name: "s2i-core${{ matrix.suffix }}"
           tag: ${{ steps.tag.outputs.tag }}
+          archs: amd64, s390x
 
       - name: Build and push s2i-base to quay.io registry
-        uses: sclorg/build-and-push-action@v4
+        uses: modassarrana89/build-and-push-action@multi-arch-support
         with:
           registry: "quay.io"
           registry_namespace: ${{ matrix.registry_namespace }}
@@ -75,3 +76,4 @@ jobs:
           dockerfile: "base/${{ matrix.dockerfile }}"
           image_name: "s2i-base${{ matrix.suffix }}"
           tag: ${{ steps.tag.outputs.tag }}
+          archs: amd64, s390x
